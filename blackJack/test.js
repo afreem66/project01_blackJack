@@ -24,7 +24,7 @@ for (var i = 0; i < SUITS.length; i++) {
     }
 }
 
-function Player (playerName) {
+function Player (name) {
   this.name = name;
   this.hand = {
     aces: [],
@@ -33,11 +33,11 @@ function Player (playerName) {
 
   var card = deck[Math.floor(Math.random()*52)].rank;
 
-  this.add = function (card) {
+  this.add = function () {
     if (card.rank === 'A') {
-      Player.hand.aces.push(card)
+      player.hand.aces.push(card)
     } else {
-      Player.hand.nonAces.push(card)
+      player.hand.nonAces.push(card)
     }
   }
 
@@ -50,13 +50,18 @@ function Player (playerName) {
   }
 
 }
-function initialize () {
-  var firstPlayer = new Player();
-  var dealer = new Player();
+function deal () {
+  playerName = prompt("Do you want to play BlackJack? What is your name?")
+  var player = new Player(playerName);
+  // var dealer = new Player(dealer);
 
-  firstPlayer.add(deck[Math.floor(Math.random()*52)])
+  for (var i = 0; i < 2; i++) {
+    player.add(deck[Math.floor(Math.random()*52)])
+    // dealer.add(deck[Math.floor(Math.random()*52)])
+  }
 
 }
+deal()
 
 
 // this.empty = function () {
