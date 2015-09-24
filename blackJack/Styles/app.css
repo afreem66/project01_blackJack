@@ -3,3 +3,9 @@ margin: 0;
 padding: 0;
 background: green;
 }
+button {
+  background: floralwhite;
+}
+input {
+  background: floralwhite;
+}
