@@ -47,7 +47,8 @@ function Player (name) {
 ///this section creates the add method to the Player. It adds cards to the players hands.
 ///It also removes cards from the deck and adds them to the dealt array above
 
-  this.add = function (card) {
+  this.add = function(card) {
+
     if (card.rank === 'A') {
       this.hand.aces.push(card);
     } else {
@@ -80,22 +81,18 @@ function Player (name) {
   }
 }
 
-/// Here is where I am trying to create the players and their hands.
+function deal(playerInstance) {
 
-playerName = prompt("Do you want to play BlackJack? What is your name?");
-
-var thePlayer = new Player(playerName);
-// var theDealer = new Player("Dealer");
-
-function deal () {
   for (var i = 0; i < 2; i++) {
-    this.add(deck[Math.floor(Math.random()*deck.length)]);
-    console.log(this.hand);
+    playerInstance.add(deck[Math.floor(Math.random()*deck.length)]);
+    console.log(playerInstance.hand);
   }
+  ///Whenever I add this section back in it just adds 4 cards to thePlayer
+  ///not the Dealer
   // for (var i = 0; i < 2; i++) {
   //   theDealer.add(deck[Math.floor(Math.random()*deck.length)]);
   // }
-  console.log(this.hand);
+  console.log(playerInstance.hand);
 };
 
 
@@ -105,3 +102,13 @@ function deal () {
 // this.empty = function () {
 //   this
 // }
+
+/// Here is where I am trying to create the players and their hands.
+var theDealer = new Player('Dealer');
+playerName = prompt("Do you want to play BlackJack? What is your name?");
+var thePlayer = new Player(playerName);
+// var theDealer = new Player("Dealer");
+///Whenever I add this section back in it just adds 4 cards to thePlayer
+///not the Dealer
+thePlayer.deal();
+theDealer.deal();
