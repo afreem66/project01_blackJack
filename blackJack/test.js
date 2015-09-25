@@ -75,9 +75,9 @@ function Player (name) {
       } else {
         points += 1;
       }
-      console.log(points)
     }
     console.log(points);
+    return points;
   }
 }
 
@@ -85,15 +85,24 @@ function deal(playerInstance) {
 
   for (var i = 0; i < 2; i++) {
     playerInstance.add(deck[Math.floor(Math.random()*deck.length)]);
-    console.log(playerInstance.hand);
   }
-  ///Whenever I add this section back in it just adds 4 cards to thePlayer
-  ///not the Dealer
-  // for (var i = 0; i < 2; i++) {
-  //   theDealer.add(deck[Math.floor(Math.random()*deck.length)]);
-  // }
-  console.log(playerInstance.hand);
 };
+
+function checkWinner(playerScore, dealerScore) {
+  if (thePlayer.value() == theDealer.value()) {
+    console.log("push");
+  } else if (thePlayer.value() == 21 || theDealer.value() == 21) {
+    console.log("BLACKJACK!")
+  } else if (thePlayer.value() > 21) {
+    console.log(playerName + " busts! Dealer wins");
+  } else if (theDealer.value() > 21) {
+    console.log("the dealer busts!" + playerName + " wins!");
+  } else if (thePlayer.value() > theDealer.value()) {
+    console.log(playerName + " wins!");
+  } else {
+    console.log("Dealer wins!");
+  }
+}
 
 
 ///Eventually I will use this Player method to clear the hands and send cards
@@ -107,8 +116,6 @@ function deal(playerInstance) {
 var theDealer = new Player('Dealer');
 playerName = prompt("Do you want to play BlackJack? What is your name?");
 var thePlayer = new Player(playerName);
-// var theDealer = new Player("Dealer");
+
 ///Whenever I add this section back in it just adds 4 cards to thePlayer
 ///not the Dealer
-thePlayer.deal();
-theDealer.deal();
