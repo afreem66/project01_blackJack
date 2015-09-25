@@ -214,6 +214,6 @@ function findWinner(playerScore, dealerScore) {
 }
 
 /// Here is where I am trying to create the players.
-playerName = prompt("Do you want to play BlackJack? What is your name?");
-var thePlayer = new Player(playerName);
-var theDealer = new Player('Dealer');
+// playerName = prompt("Do you want to play BlackJack? What is your name?");
+// var thePlayer = new Player(playerName);
+// var theDealer = new Player('Dealer');

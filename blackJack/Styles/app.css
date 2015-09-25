@@ -7,6 +7,40 @@ body {
   background: steelblue;
 }
 div {
+  background: silver;
+  border: 5px solid #333;
+  border-radius: 15px;
+  position: absolute;
+
+}
+.player, .dealer {
+  left: 10%;
+  width: 50%;
+  height: 30%
+}
+.player {
+
+}
+.dealer {
+  top: 60%;
+}
+.deck {
+  top: 35%;
+  right: 15%;
+  width: 12%;
+  height: 30%;
+}
+h2, h3 {
+  text-align: center;
+  font-family: 'Josefin Slab', serif;
+}
+
+h2 {
+  padding-top: 1rem;
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.5rem;
 }
 button {
   background: floralwhite;
