@@ -1,3 +1,33 @@
+///creating event listeners for deal, hit, and stay buttons.
+var dealButton = $('.deal'),
+    hitButton = $('.hit')
+    stayButton = $('.stay');
+///this button deals cards to the players hands and looks for blackjack
+dealButton.on("click", function (e) {
+  deal(thePlayer, theDealer);
+  console.log(thePlayer.value());
+  console.log(theDealer.value());
+
+  checkBlackJack(thePlayer.value(), theDealer.value());
+})
+///
+hitButton.on("click", function(e) {
+  thePlayer.add(deck[Math.floor(Math.random()*deck.length)])
+    if(thePlayer.value() > 21) {
+      alert("BUST!");
+    } else {
+      checkBlackJack(thePlayer.value(), theDealer.value());
+    }
+})
+
+stayButton.on("click", function(e) {
+  console.log(thePlayer.value());
+  dealerRules(theDealer.value());
+  console.log(theDealer.value());
+})
+
+
+
 ///This section creates the card Constructor function to create the deck
 ///It pulls from the suits and ranks array to create A-K and adds a value
 ///using a conditional statement to combat the face card problem
@@ -100,37 +130,50 @@ function deal(player, dealer) {
 
     dealer.add(deck[Math.floor(Math.random()*deck.length)]);
   }
+  console.log(player.hand);
+  console.log(dealer.hand);
 };
 
 ///This function checks the scores for any type of game ending outcomes
 
-function checkWinner(playerScore, dealerScore) {
-  if (playerScore == dealerScore) {
-    console.log("push");
+function checkBlackJack(playerScore, dealerScore) {
+  if (playerScore == 21 && dealerScore == 21) {
+    console.log("Both, have blackjack it is a push");
   } else if (playerScore == 21) {
-    console.log("BLACKJACK!")
-  } else if (playerScore > 21) {
-    console.log(playerName + " busts! Dealer wins");
-  } else if (dealerScore > 21) {
-    console.log("the dealer busts!" + playerName + " wins!");
-  } else if (playerScore > dealerScore) {
-    console.log(playerName + " wins!");
+    console.log("BLACKJACK! " + playerName + " wins!")
+  } else if (dealerScore == 21) {
+    console.log("BLACKJACK! Dealer wins");
   } else {
-    console.log("Dealer wins!");
+    console.log(playerName + ", you have " + playerScore + ". Do you want to hit or stay?")
   }
 }
 ///this function lays out the rules for the dealer to stay and hit
 ///Does it need to be a function or variable??? can I attach to constructor object?
 
 function dealerRules(dealerScore) {
-  while (dealerScore <= 17) {
-    theDealer.add(deck[Math.floor(Math.random()*deck.length)]);
-    return dealerScore;
+    if (dealerScore > 17) {
+      console.log("The dealer has " + dealerScore + " and has to stay")
+    } else {
+    while (dealerScore <= 17) {
+      console.log("The dealer has " + dealerScore + " and has to hit");
+      theDealer.add(deck[Math.floor(Math.random()*deck.length)]);
+      console.log("The dealer now has " + dealerScore);
+      return dealerScore;
+      }
     }
-  }
+}
 
+function findWinner(playerScore, dealerScore) {
+  if (playerScore == dealerScore) {
+    console.log(playerName + " wins!");
+  } else if (playerScore < dealerScore) {
+    console.log("BOOOO the dealer wins");
+  } else {
+    console.log("It is a push, you get your maoney back " + playerName);
+  }
+}
 /// Here is where I am trying to create the players and their hands.
-// playerName = prompt("Do you want to play BlackJack? What is your name?");
+playerName = prompt("Do you want to play BlackJack? What is your name?");
 var thePlayer = new Player(playerName);
 var theDealer = new Player('Dealer');
 
