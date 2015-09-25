@@ -19,7 +19,7 @@ function Card (cardSuit, cardRank) {
 }
 
 ///these are the general arrays where cards are stored. deck for unused cards
-///and dealt for usued cards
+///and dealt for used cards
 
 var deck = [];
 var dealt = [];
@@ -83,10 +83,10 @@ function Player (name) {
 ///This Player method clears both hands and sends cards back to the deck array
 
   this.reset = function () {
-      {
+
     hand.aces.splice();
     hand.nonAces.splice();
-  }
+
 }
 
 
@@ -130,7 +130,7 @@ function dealerRules(dealerScore) {
   }
 
 /// Here is where I am trying to create the players and their hands.
-playerName = prompt("Do you want to play BlackJack? What is your name?");
+// playerName = prompt("Do you want to play BlackJack? What is your name?");
 var thePlayer = new Player(playerName);
 var theDealer = new Player('Dealer');
 

@@ -4,12 +4,20 @@
     <link rel="stylesheet" href="Styles/app.css">
     <meta charset="utf-8">
     <title>BlackJack</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   </head>
   <body>
-    <button name="deal">Deal</button>
-    <button type="button" name="hit">Hit</button>
-    <button type="button" name="stay">Stay</button>
-    <input type="number" name="bet" value="number">
+    <h2>Black Jack Pays 3 to 2</h2>
+    <h3>Dealer must hit on 16 and stay on 17</h3>
+    <div class="player">
+      <button name="deal">Deal</button>
+      <button type="button" name="hit">Hit</button>
+      <button type="button" name="stay">Stay</button>
+      <input type="number" name="bet" value="number">
+    </div>
+    <div class="dealer">
+    </div>
+    <div class="deck"></div>
     <script src="test.js"></script>
   </body>
 </html>
