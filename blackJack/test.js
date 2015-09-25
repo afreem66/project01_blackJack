@@ -63,22 +63,35 @@ function Player (name) {
 
   this.value = function () {
 
-    var points = 0;
+      var points = 0;
 
-    for (var i = 0; i < this.hand.nonAces.length; i++) {
-      points += this.hand.nonAces[i].value;
-    }
-
-    for (var i = 0; i < this.hand.aces.length; i++) {
-      if (points < 11) {
-        points += 11;
-      } else {
-        points += 1;
+      for (var i = 0; i < this.hand.nonAces.length; i++) {
+        points += this.hand.nonAces[i].value;
       }
+
+      for (var i = 0; i < this.hand.aces.length; i++) {
+        if (points < 11) {
+          points += 11;
+        } else {
+          points += 1;
+        }
+      }
+      return points;
     }
-    return points;
+}
+
+///This Player method clears both hands and sends cards back to the deck array
+
+  this.reset = function () {
+      {
+    hand.aces.splice();
+    hand.nonAces.splice();
   }
 }
+
+
+
+///This section deals the original two cards to the player and dealer.
 
 function deal(player, dealer) {
 
@@ -106,6 +119,8 @@ function checkWinner(playerScore, dealerScore) {
     console.log("Dealer wins!");
   }
 }
+///this function lays out the rules for the dealer to stay and hit
+///Does it need to be a function or variable??? can I attach to constructor object?
 
 function dealerRules(dealerScore) {
   while (dealerScore <= 17) {
@@ -113,13 +128,6 @@ function dealerRules(dealerScore) {
     return dealerScore;
     }
   }
-
-///Eventually I will use this Player method to clear the hands and send cards
-///back to the deck array
-
-// this.empty = function () {
-//   this
-// }
 
 /// Here is where I am trying to create the players and their hands.
 playerName = prompt("Do you want to play BlackJack? What is your name?");
@@ -133,6 +141,12 @@ function game() {
 
   dealerRules(theDealer.value());
   checkWinner(thePlayer.value(), theDealer.value());
+
+  thePlayer.reset();
+  theDealer.reset();
+  for (var i = 0; i < dealt.length; i++) {
+    deck.push(dealt[i]);
+  }
 }
 
 ///Whenever I add this section back in it just adds 4 cards to thePlayer
