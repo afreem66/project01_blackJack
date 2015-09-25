@@ -5,12 +5,16 @@ var dealButton = $('.deal'),
     bankRoll = 500
 ///this button deals cards to the players hands and looks for blackjack
 dealButton.on("click", function (e) {
+  if (bankRoll < $("#player-bet").val()) {
+    alert("You do not have enough money to play! Make a smaller bet or go back to the bank.")
+  } else {
   deal(thePlayer, theDealer);
   console.log(thePlayer.value());
   console.log(theDealer.value());
   bankRoll -= $("#player-bet").val();
 
   checkBlackJack(thePlayer.value(), theDealer.value());
+  }
 })
 ///
 hitButton.on("click", function(e) {
@@ -188,7 +192,7 @@ function findWinner(playerScore, dealerScore) {
 
   } else {
     console.log("It is a push, you get your money back " + playerName);
-    bankRoll += ($("#player-bet").val());
+    bankRoll += $("#player-bet").val();
 
   }
   console.log(bankRoll);
