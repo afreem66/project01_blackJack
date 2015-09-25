@@ -76,34 +76,43 @@ function Player (name) {
         points += 1;
       }
     }
-    console.log(points);
     return points;
   }
 }
 
-function deal(playerInstance) {
+function deal(player, dealer) {
 
   for (var i = 0; i < 2; i++) {
-    playerInstance.add(deck[Math.floor(Math.random()*deck.length)]);
+    player.add(deck[Math.floor(Math.random()*deck.length)]);
+
+    dealer.add(deck[Math.floor(Math.random()*deck.length)]);
   }
 };
 
+///This function checks the scores for any type of game ending outcomes
+
 function checkWinner(playerScore, dealerScore) {
-  if (thePlayer.value() == theDealer.value()) {
+  if (playerScore == dealerScore) {
     console.log("push");
-  } else if (thePlayer.value() == 21 || theDealer.value() == 21) {
+  } else if (playerScore == 21) {
     console.log("BLACKJACK!")
-  } else if (thePlayer.value() > 21) {
+  } else if (playerScore > 21) {
     console.log(playerName + " busts! Dealer wins");
-  } else if (theDealer.value() > 21) {
+  } else if (dealerScore > 21) {
     console.log("the dealer busts!" + playerName + " wins!");
-  } else if (thePlayer.value() > theDealer.value()) {
+  } else if (playerScore > dealerScore) {
     console.log(playerName + " wins!");
   } else {
     console.log("Dealer wins!");
   }
 }
 
+function dealerRules(dealerScore) {
+  while (dealerScore <= 17) {
+    theDealer.add(deck[Math.floor(Math.random()*deck.length)]);
+    return dealerScore;
+    }
+  }
 
 ///Eventually I will use this Player method to clear the hands and send cards
 ///back to the deck array
@@ -113,9 +122,18 @@ function checkWinner(playerScore, dealerScore) {
 // }
 
 /// Here is where I am trying to create the players and their hands.
-var theDealer = new Player('Dealer');
 playerName = prompt("Do you want to play BlackJack? What is your name?");
 var thePlayer = new Player(playerName);
+var theDealer = new Player('Dealer');
+
+function game() {
+  deal(thePlayer, theDealer);
+  console.log(thePlayer.value());
+  console.log(theDealer.value());
+
+  dealerRules(theDealer.value());
+  checkWinner(thePlayer.value(), theDealer.value());
+}
 
 ///Whenever I add this section back in it just adds 4 cards to thePlayer
 ///not the Dealer
