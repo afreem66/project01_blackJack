@@ -1,6 +1,7 @@
 * {
 margin: 0;
 padding: 0;
+box-sizing: border-box;
 }
 
 body {
@@ -19,18 +20,27 @@ div {
   height: 30%
 }
 .player {
-
+  top: 15%;
 }
 .dealer {
-  top: 60%;
+  top: 65%;
+}
+.deck-container {
+  top: 35%;
+  right: 13%;
+  width: 15%;
+  height: 39%;
 }
 .deck {
-  top: 35%;
-  right: 15%;
-  width: 12%;
-  height: 30%;
+  position: absolute;
+  top: 15%;
+  right: 11%;
+  width: 80%;
+  height: 68%;
+
+  background: #555;
 }
-h2, h3 {
+h2, h3, h4 {
   text-align: center;
   font-family: 'Josefin Slab', serif;
 }
@@ -40,11 +50,38 @@ h2 {
   font-size: 2rem;
 }
 h3 {
+  padding-top: 0.5rem;
   font-size: 1.5rem;
 }
-button {
+h4 {
+  font-size: 2rem;
+  text-align: right;
+  padding: 0.5rem;
+}
+.bl {
+  text-align: left;
+  padding: 0.3rem;
+}
+button, input {
   background: floralwhite;
 }
+button {
+  width: 5rem;
+  border: 0.2rem solid #333;
+  border-radius: 15px;
+  font-size: 1rem;
+  margin: 0.2rem;
+}
+.deal {
+  position: relative;
+  margin-left: 3rem;
+}
 input {
-  background: floralwhite;
+  position: relative;
+  padding: 0.1rem;
+  max-width: 60%;
+  margin: 13rem 2.3rem;
+  color: #333;
+  text-align: center;
+  border: 0.2rem solid #333;
 }

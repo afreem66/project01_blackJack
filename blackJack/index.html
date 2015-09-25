@@ -2,23 +2,47 @@
 <html>
   <head>
     <link href='https://fonts.googleapis.com/css?family=Josefin+Slab:400,300italic' rel='stylesheet' type='text/css'>
+
     <link rel="stylesheet" href="Styles/app.css">
     <meta charset="utf-8">
     <title>BlackJack</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   </head>
   <body>
-    <h2>Black Jack Pays 3 to 2</h2>
-    <h3>Dealer must hit on 16 and stay on 17</h3>
+    <h2>Black Jack </h2>
+    <h3>Blackjack Pays 3 to 2 | Dealer must hit on 16 and stay on 17 | Minimum bet $10</h3>
+
     <div class="player">
-      <button class="deal">Deal</button>
-      <button class="hit">Hit</button>
-      <button class="stay">Stay</button>
-      <input id="player-bet" type="number" value="number">
+
+      <h3 class="player-name">
+        <button class="hit">Hit</button>
+        <p class="name-div"></p>
+        <button class="stay">Stay</button>
+      </h3>
+
     </div>
+
     <div class="dealer">
+
+      <h3 class="dealerName">Dealer</h3>
+
     </div>
-    <div class="deck"></div>
+
+    <div class="deck-container">
+
+      <button class="deal">Deal</button>
+      <div class="deck">
+        <h4 class="jk">JK</h4>
+      </br>
+      </br>
+      </br>
+        <h4 class="bl">BL</h4>
+      </div>
+      <input id="player-bet" type="number" value="number" placeholder="Place Your Bet">
+      <div class="bank">Bank: </div>
+
+    </div>
+
     <script src="test.js"></script>
   </body>
 </html>

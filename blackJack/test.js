@@ -1,37 +1,47 @@
 ///creating event listeners for deal, hit, and stay buttons.
 var dealButton = $('.deal'),
-    hitButton = $('.hit')
-    stayButton = $('.stay');
-    bankRoll = 500
+    hitButton = $('.hit'),
+    stayButton = $('.stay'),
+    bankRoll = 500;
 ///this button deals cards to the players hands and looks for blackjack
 dealButton.on("click", function (e) {
+  reset(thePlayer, theDealer);
+
   if (bankRoll < $("#player-bet").val()) {
     alert("You do not have enough money to play! Make a smaller bet or go back to the bank.")
-  } else {
+  }
+
+    else if ($("#player-bet").val() == "" || $("#player-bet").val() < 10) {
+    alert("you need to place the minimum bet of ten to play")
+  }
+
+    else {
   deal(thePlayer, theDealer);
   console.log(thePlayer.value());
   console.log(theDealer.value());
+
   bankRoll -= $("#player-bet").val();
 
   checkBlackJack(thePlayer.value(), theDealer.value());
   }
+
 })
-///
+
+///this button throws another card into the players hand
+
 hitButton.on("click", function(e) {
   thePlayer.add(deck[Math.floor(Math.random()*deck.length)])
-    if(thePlayer.value() > 21) {
-      alert("BUST!");
-      bankRoll -= $("#player-bet").val();
 
-    } else {
-      checkBlackJack(thePlayer.value(), theDealer.value());
-    }
+  checkBlackJack(thePlayer.value(), theDealer.value());
 })
 
+///this button finishes the player turn and starts the dealer play
+
 stayButton.on("click", function(e) {
-  console.log(thePlayer.value());
+  alert(playerName + "is staying with " + thePlayer.value());
+
   dealerRules(theDealer.value());
-  console.log(theDealer.value());
+
   findWinner(thePlayer.value(), theDealer.value());
 
   reset(thePlayer, theDealer);
@@ -138,6 +148,34 @@ function deal(player, dealer) {
   console.log(dealer.hand);
 };
 
+///This function contains the logic that determines the winner
+
+function findWinner(playerScore, dealerScore) {
+  if (playerScore > 21) {
+    console.log("You bust, you lose.");
+
+  } else if (dealerScore > 21) {
+    console.log("The dealer busts you win!");
+    bankRoll += ($("#player-bet").val()*2);
+
+  } else if (dealerScore == 21) {
+    console.log("The dealer has 21, you lose!");
+
+  } else if (playerScore > dealerScore) {
+    console.log(playerName + " wins!");
+    bankRoll += ($("#player-bet").val()*2);
+
+  } else if (playerScore < dealerScore) {
+    console.log("BOOOO the dealer wins");
+    bankRoll = bankRoll;
+
+  } else {
+    console.log("It is a push, you get your money back " + playerName);
+    bankRoll += $("#player-bet").val();
+
+  }
+  console.log(bankRoll);
+}
 ///This function checks the scores for any type of game ending outcomes
 
 function checkBlackJack(playerScore, dealerScore) {
@@ -150,12 +188,8 @@ function checkBlackJack(playerScore, dealerScore) {
     console.log("BLACKJACK! " + playerName + " wins!")
     bankRoll += ($("#player-bet").val()*2.5);
 
-  } else if (dealerScore == 21) {
-    console.log("BLACKJACK! Dealer wins");
-    bankRoll = bankRoll;
-
   } else {
-    console.log(playerName + ", you have " + playerScore + ". Do you want to hit or stay?")
+    alert(playerName + ", you have " + playerScore + ". Do you want to hit or stay?");
   }
 }
 
@@ -174,30 +208,6 @@ function dealerRules(dealerScore) {
     }
 }
 
-///This function contains the logic that determines the winner
-
-function findWinner(playerScore, dealerScore) {
-  if (dealerScore > 21) {
-    console.log("The dealer busts you win!");
-    bankRoll += ($("#player-bet").val()*2);
-
-  }
-    else if (playerScore > dealerScore) {
-    console.log(playerName + " wins!");
-    bankRoll += ($("#player-bet").val()*2);
-
-  } else if (playerScore < dealerScore) {
-    console.log("BOOOO the dealer wins");
-    bankRoll = bankRoll;
-
-  } else {
-    console.log("It is a push, you get your money back " + playerName);
-    bankRoll += $("#player-bet").val();
-
-  }
-  console.log(bankRoll);
-}
-
 ///This function clears both hands and sends cards back to the deck array
 
   function reset (player, dealer) {
@@ -213,7 +223,9 @@ function findWinner(playerScore, dealerScore) {
 
 }
 
-/// Here is where I am trying to create the players.
-// playerName = prompt("Do you want to play BlackJack? What is your name?");
-// var thePlayer = new Player(playerName);
-// var theDealer = new Player('Dealer');
+/// Here is where I am trying to create the players, the player name and bank views.
+///These all initialize at the beginning of the game
+playerName = prompt("Do you want to play BlackJack? What is your name?");
+$(".name-div").text(playerName);
+var thePlayer = new Player(playerName);
+var theDealer = new Player('Dealer');
