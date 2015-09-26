@@ -26,6 +26,7 @@ div {
   top: 65%;
 }
 .deck-container {
+  position: absolute;
   top: 35%;
   right: 13%;
   width: 15%;
@@ -75,6 +76,13 @@ button {
 .deal {
   position: relative;
   margin-left: 3rem;
+  border: 0.2rem solid #333;
+  border-radius: 8px;
+  text-align: center;
+}
+.bank {
+  width: 5rem;
+  font-size: 1rem;
 }
 input {
   position: relative;

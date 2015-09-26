@@ -72,6 +72,10 @@ function Card (cardSuit, cardRank) {
   }
 }
 
+function CardView (cardSuit, cardRank) {
+  this.suit = cardSuit;
+  this.rank = cardRank;
+}
 ///these are the general arrays where cards are stored. deck for unused cards
 ///and dealt for used cards
 
@@ -153,25 +157,31 @@ function deal(player, dealer) {
 function findWinner(playerScore, dealerScore) {
   if (playerScore > 21) {
     console.log("You bust, you lose.");
+    alert("click deal to play another hand")
 
   } else if (dealerScore > 21) {
     console.log("The dealer busts you win!");
     bankRoll += ($("#player-bet").val()*2);
+    alert("click deal to play another hand")
 
   } else if (dealerScore == 21) {
     console.log("The dealer has 21, you lose!");
+    alert("click deal to play another hand")
 
   } else if (playerScore > dealerScore) {
     console.log(playerName + " wins!");
     bankRoll += ($("#player-bet").val()*2);
+    alert("click deal to play another hand")
 
   } else if (playerScore < dealerScore) {
     console.log("BOOOO the dealer wins");
     bankRoll = bankRoll;
+    alert("click deal to play another hand")
 
   } else {
     console.log("It is a push, you get your money back " + playerName);
     bankRoll += $("#player-bet").val();
+    alert("click deal to play another hand")
 
   }
   console.log(bankRoll);
@@ -182,11 +192,13 @@ function checkBlackJack(playerScore, dealerScore) {
   if (playerScore == 21 && dealerScore == 21) {
     console.log("Both, have blackjack it is a push");
     bankRoll += $("#player-bet").val();
+    alert("click deal to play another hand")
 ;
 
   } else if (playerScore == 21) {
     console.log("BLACKJACK! " + playerName + " wins!")
     bankRoll += ($("#player-bet").val()*2.5);
+    alert("click deal to play another hand")
 
   } else {
     alert(playerName + ", you have " + playerScore + ". Do you want to hit or stay?");
