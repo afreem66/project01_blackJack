@@ -48,9 +48,10 @@ div {
 }
 
 .card {
-  position: absolute;
+  position: relative;
+  display: inline;
   width: 80%;
-  height: 68%;
+  height: 100%;
   background: #555;
 }
 

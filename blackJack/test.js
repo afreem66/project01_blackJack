@@ -2,6 +2,8 @@
 var dealButton = $('.deal'),
     hitButton = $('.hit'),
     stayButton = $('.stay'),
+    playerDiv = $(".player"),
+    dealerDiv = $(".dealer"),
     bankRoll = 500;
 ///this button deals cards to the players hands and looks for blackjack
 dealButton.on("click", function (e) {
@@ -31,20 +33,22 @@ dealButton.on("click", function (e) {
 
 hitButton.on("click", function(e) {
   thePlayer.add(deck[Math.floor(Math.random()*deck.length)])
+  playerDiv.append(deckViews[Math.floor(Math.random()*deck.length)].el);
+
 
   checkBlackJack(thePlayer.value(), theDealer.value());
+  findWinner(thePlayer.value(), theDealer.value());
 })
 
 ///this button finishes the player turn and starts the dealer play
 
 stayButton.on("click", function(e) {
-  alert(playerName + "is staying with " + thePlayer.value());
+  alert(playerName + " is staying with " + thePlayer.value());
 
   dealerRules(theDealer.value());
 
   findWinner(thePlayer.value(), theDealer.value());
 
-  reset(thePlayer, theDealer);
   console.log(thePlayer.hand);
   console.log(theDealer.hand);
 
@@ -72,27 +76,25 @@ function Card (cardSuit, cardRank) {
   }
 }
 
-function CardView (cardSuit, cardRank) {
+function CardView (card) {
   var thisView = this;
 
-  this.suit = cardSuit;
-  this.rank = cardRank;
-
-  // this.render();
+  this.card = nextCard;
+  this.render();
 }
 
 CardView.prototype.render = function () {
   this.el = $('<div class="card">');
-  this.el.text(this.nextCardView.cardRank);
-  this.el.text(this.nextCardView.cardSuit);
+  this.el.text(this.card.rank + this.card.suit);
 }
 ///these are the general arrays where cards are stored. deck for unused cards
 ///and dealt for used cards
 
-var deck = [];
-var deckViews = [];
+var deck = [],
+    deckViews = [],
 
-var dealt = [];
+    dealt = [],
+    dealtViews = [];
 
 ///this section creates the deck using the Card Constructor function
 
@@ -100,7 +102,7 @@ for (var i = 0; i < SUITS.length; i++) {
     for (var j = 0; j < RANKS.length; j++) {
 
       var nextCard = new Card(SUITS[i], RANKS[j]);
-      var nextCardView = new CardView(SUITS[i], RANKS[j]);
+      var nextCardView = new CardView(nextCard);
 
       deck.push(nextCard);
       deckViews.push(nextCardView);
@@ -160,14 +162,18 @@ function Player (name) {
 
 function deal(player, dealer) {
 
-  var playerDiv = $(".player");
-  var dealerDiv = $(".dealer");
-
   for (var i = 0; i < 2; i++) {
     player.add(deck[Math.floor(Math.random()*deck.length)]);
     playerDiv.append(deckViews[Math.floor(Math.random()*deck.length)].el);
 
+    dealtViews.push(card);
+    deckViews.splice(card, 1)
+
     dealer.add(deck[Math.floor(Math.random()*deck.length)]);
+    dealerDiv.append(deckViews[Math.floor(Math.random()*deck.length)].el);
+
+    dealt.push(card);
+    deck.splice(card, 1)
   }
   console.log(player.hand);
   console.log(dealer.hand);
@@ -177,30 +183,30 @@ function deal(player, dealer) {
 
 function findWinner(playerScore, dealerScore) {
   if (playerScore > 21) {
-    console.log("You bust, you lose.");
+    alert("You bust, you lose.");
     alert("click deal to play another hand")
 
   } else if (dealerScore > 21) {
-    console.log("The dealer busts you win!");
+    alert("The dealer busts you win!");
     bankRoll += ($("#player-bet").val()*2);
     alert("click deal to play another hand")
 
   } else if (dealerScore == 21) {
-    console.log("The dealer has 21, you lose!");
+    alert("The dealer has 21, you lose!");
     alert("click deal to play another hand")
 
   } else if (playerScore > dealerScore) {
-    console.log(playerName + " wins!");
+    alert(playerName + " wins!");
     bankRoll += ($("#player-bet").val()*2);
     alert("click deal to play another hand")
 
   } else if (playerScore < dealerScore) {
-    console.log("BOOOO the dealer wins");
+    alert("BOOOO the dealer wins");
     bankRoll = bankRoll;
     alert("click deal to play another hand")
 
   } else {
-    console.log("It is a push, you get your money back " + playerName);
+    alert("It is a push, you get your money back " + playerName);
     bankRoll += $("#player-bet").val();
     alert("click deal to play another hand")
 
@@ -211,13 +217,13 @@ function findWinner(playerScore, dealerScore) {
 
 function checkBlackJack(playerScore, dealerScore) {
   if (playerScore == 21 && dealerScore == 21) {
-    console.log("Both, have blackjack it is a push");
+    alert("Both, have blackjack it is a push");
     bankRoll += $("#player-bet").val();
     alert("click deal to play another hand")
 ;
 
   } else if (playerScore == 21) {
-    console.log("BLACKJACK! " + playerName + " wins!")
+    alert("BLACKJACK! " + playerName + " wins!")
     bankRoll += ($("#player-bet").val()*2.5);
     alert("click deal to play another hand")
 
@@ -230,11 +236,13 @@ function checkBlackJack(playerScore, dealerScore) {
 
 function dealerRules(dealerScore) {
     if (dealerScore >= 17) {
-      console.log("The dealer has " + dealerScore + " and has to stay")
+      alert("The dealer has " + dealerScore + " and has to stay")
     } else {
     while (dealerScore < 17) {
-      console.log("The dealer has " + dealerScore + " and has to hit");
+      alert("The dealer has " + dealerScore + " and has to hit");
       theDealer.add(deck[Math.floor(Math.random()*deck.length)]);
+      dealerDiv.append(deckViews[Math.floor(Math.random()*deck.length)].el);
+
       return dealerScore;
       }
 
@@ -254,6 +262,7 @@ function dealerRules(dealerScore) {
     }
     dealer.hand.nonAces.splice(0, dealer.hand.nonAces.length);
 
+    $(".card").remove();
 }
 
 /// Here is where I am trying to create the players, the player name and bank views.
