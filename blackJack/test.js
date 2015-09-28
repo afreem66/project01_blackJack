@@ -1,4 +1,6 @@
-///creating event listeners for deal, hit, and stay buttons.
+///Here are where I have jQuery variables and the bank variable to be accessed
+///by various functions
+
 var dealButton = $('.deal'),
     hitButton = $('.hit'),
     stayButton = $('.stay'),
@@ -6,7 +8,14 @@ var dealButton = $('.deal'),
     dealerDiv = $(".dealer"),
     bankDiv = $(".bank"),
     bankRoll = 500;
+
+///here are the event listeners on each of the buttons
+
 ///this button deals cards to the players hands and looks for blackjack
+///I also included the reset function right at the beginning to make sure the
+///hand was empty to start. This also automatically reduces your bank by your bet
+///once dealt
+
 dealButton.on("click", function (e) {
   reset(thePlayer, theDealer);
 
@@ -32,7 +41,7 @@ dealButton.on("click", function (e) {
 
 })
 
-///this button throws another card into the players hand
+///this button throws another card into the players hand and checks for a winner
 
 hitButton.on("click", function(e) {
   thePlayer.add(deck[Math.floor(Math.random()*deck.length)])
@@ -45,6 +54,7 @@ hitButton.on("click", function(e) {
 })
 
 ///this button finishes the player turn and starts the dealer play
+///it also checks for a winner or different outcomess based on the dealer rules
 
 stayButton.on("click", function(e) {
   alert(playerName + " is staying with " + thePlayer.value());
@@ -80,6 +90,9 @@ function Card (cardSuit, cardRank) {
   }
 }
 
+///HEre is the constructor function for the card values. This is something that
+///I want to come to back to add actual card images to using a sprite sheet
+
 function CardView (card) {
   var thisView = this;
 
@@ -91,8 +104,9 @@ CardView.prototype.render = function () {
   this.el = $('<div class="card">');
   this.el.text(this.card.rank + " of " + this.card.suit);
 }
-///these are the general arrays where cards are stored. deck for unused cards
-///and dealt for used cards
+
+///these are the general arrays where cards  and card views are stored.
+///deck for unused cards and dealt for used cards
 
 var deck = [],
     deckViews = [],
@@ -100,7 +114,10 @@ var deck = [],
     dealt = [],
     dealtViews = [];
 
-///this section creates the deck using the Card Constructor function
+///this section creates the deck using the Card Constructor function by looping
+///first over the suits array and eaach individual value, then pushes to the deck array
+///it also creates the card views by passing through the card into the CardView
+///constructor function
 
 for (var i = 0; i < SUITS.length; i++) {
     for (var j = 0; j < RANKS.length; j++) {
@@ -136,11 +153,16 @@ function Player (name) {
 
     dealt.push(card);
     deck.splice(card, 1);
+    dealtViews.push(card);
+    deckViews.splice(card, 1);
 
 
   }
 
 ///this section adds the method which sums a players hand to the PLayer object.
+///this function gets accessed a lot throughout the code
+///I dealt with the ace problem here as well using an if/else statement depending
+///on the variable points which temporarily stores the sum of the cards
 
   this.value = function () {
 
@@ -162,7 +184,17 @@ function Player (name) {
 }
 
 
-///This section deals the original two cards to the player and dealer.
+///This section deals the original two cards to the player and dealer and appends
+///the new card divs to the DOM, this is totally random.
+///This is another thing I want to come back to because I am having difficulties
+///dealing a second hand. After the first hands, the cards and cardViews do not
+///correspond. I think it has to do with their position in their arrays.
+
+///I tried to combat this by storing the random number in a variable so there could
+///be no confusion. When I have the chance I might try and access the data stored
+///in the card view since its created by using the card
+
+///I also want to animate the cards moving from the deck to the playing areas as well
 
 function deal(player, dealer) {
 
@@ -170,23 +202,20 @@ function deal(player, dealer) {
     var randomNumOne = Math.floor(Math.random()*deck.length);
     var randomNumTwo = Math.floor(Math.random()*deck.length);
 
-    player.add(deck[randomNumOne]);
+    player.add(deck[randomNumOne], deckViews[randomNumOne]);
     playerDiv.append(deckViews[randomNumOne].el);
-
-    dealtViews.push(deckViews[randomNumOne]);
-    deckViews.splice((deckViews[randomNumOne]), 1);
 
     dealer.add(deck[randomNumTwo]);
     dealerDiv.append(deckViews[randomNumTwo].el);
 
-    dealtViews.push(deckViews[randomNumTwo]);
-    deckViews.splice((deckViews[randomNumTwo]), 1)
   }
   console.log(player.hand);
   console.log(dealer.hand);
 };
 
-///This function contains the logic that determines the winner
+///This function contains the logic that determines the winner. It first checks
+///for a push, then a bust, then 21, then whoever is closest to 21. It also updates
+///the bankrll from the deal button based on the outcome.
 
 function findWinner(playerScore, dealerScore) {
   if (playerScore == dealerScore) {
@@ -220,7 +249,8 @@ function findWinner(playerScore, dealerScore) {
   }
   bankDiv.text("Bank: $" + bankRoll);
 }
-///This function checks the scores for any type of game ending outcomes
+
+///This function checks for an intial blackjack after the deal or a hit for the player
 
 function checkBlackJack(playerScore, dealerScore) {
   if (playerScore == 21 && dealerScore == 21) {
@@ -239,7 +269,8 @@ function checkBlackJack(playerScore, dealerScore) {
   }
 }
 
-///this function lays out the rules for the dealer to stay and hit
+///this function lays out the rules for the dealer to stay and hit based on classic
+///casino rule of 17. I used a while loop to make the dealer hit until 17 is reached
 
 function dealerRules(dealerScore) {
     if (dealerScore >= 17) {
@@ -258,6 +289,7 @@ function dealerRules(dealerScore) {
 }
 
 ///This function clears both hands and sends cards back to the deck array
+///I call it in the deal button
 
   function reset (player, dealer) {
     if (player.hand.aces.length > 0) {

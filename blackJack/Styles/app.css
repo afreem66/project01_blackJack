@@ -6,6 +6,8 @@ box-sizing: border-box;
 
 body {
   background: steelblue;
+  font-family: 'Josefin Slab', serif;
+
 }
 div {
   background: silver;
@@ -50,14 +52,16 @@ div {
 .card {
   position: relative;
   display: inline;
-  width: 80%;
-  height: 100%;
+  font-size: 1rem;
+  padding: 2rem;
   background: #555;
 }
 
+
+
 h2, h3, h4 {
-  text-align: center;
-  font-family: 'Josefin Slab', serif;
+  text-align: right;
+  margin-right: 1rem;
 }
 
 h2 {
@@ -73,10 +77,14 @@ h4 {
   text-align: right;
   padding: 0.5rem;
 }
+
+
+
 .bl {
   text-align: left;
   padding: 0.3rem;
 }
+
 button, input {
   background: floralwhite;
 }
@@ -87,6 +95,19 @@ button {
   font-size: 1rem;
   margin: 0.2rem;
 }
+
+input {
+  position: absolute;
+  padding: 0.1rem;
+  top: 84%;
+  left: 58%;
+  max-width: 40%;
+  color: #333;
+  text-align: center;
+  border: 5px solid #333;
+}
+
+
 .deal {
   position: relative;
   margin-left: 3rem;
@@ -95,16 +116,9 @@ button {
   text-align: center;
 }
 .bank {
-  width: 5rem;
+  position: absolute;
+  top: 84%;
+  width: 6rem;
   font-size: 1rem;
   text-align: center;
-}
-input {
-  position: relative;
-  padding: 0.1rem;
-  max-width: 60%;
-  margin: 13rem 2.3rem;
-  color: #333;
-  text-align: center;
-  border: 0.2rem solid #333;
 }
