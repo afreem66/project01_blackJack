@@ -4,6 +4,7 @@ var dealButton = $('.deal'),
     stayButton = $('.stay'),
     playerDiv = $(".player"),
     dealerDiv = $(".dealer"),
+    bankDiv = $(".bank"),
     bankRoll = 500;
 ///this button deals cards to the players hands and looks for blackjack
 dealButton.on("click", function (e) {
@@ -19,10 +20,12 @@ dealButton.on("click", function (e) {
 
     else {
   deal(thePlayer, theDealer);
+
   console.log(thePlayer.value());
   console.log(theDealer.value());
 
   bankRoll -= $("#player-bet").val();
+  bankDiv.text("Bank: $" + bankRoll);
 
   checkBlackJack(thePlayer.value(), theDealer.value());
   }
@@ -38,6 +41,7 @@ hitButton.on("click", function(e) {
 
   checkBlackJack(thePlayer.value(), theDealer.value());
   findWinner(thePlayer.value(), theDealer.value());
+
 })
 
 ///this button finishes the player turn and starts the dealer play
@@ -85,7 +89,7 @@ function CardView (card) {
 
 CardView.prototype.render = function () {
   this.el = $('<div class="card">');
-  this.el.text(this.card.rank + this.card.suit);
+  this.el.text(this.card.rank + " of " + this.card.suit);
 }
 ///these are the general arrays where cards are stored. deck for unused cards
 ///and dealt for used cards
@@ -163,17 +167,20 @@ function Player (name) {
 function deal(player, dealer) {
 
   for (var i = 0; i < 2; i++) {
-    player.add(deck[Math.floor(Math.random()*deck.length)]);
-    playerDiv.append(deckViews[Math.floor(Math.random()*deck.length)].el);
+    var randomNumOne = Math.floor(Math.random()*deck.length);
+    var randomNumTwo = Math.floor(Math.random()*deck.length);
 
-    dealtViews.push(card);
-    deckViews.splice(card, 1)
+    player.add(deck[randomNumOne]);
+    playerDiv.append(deckViews[randomNumOne].el);
 
-    dealer.add(deck[Math.floor(Math.random()*deck.length)]);
-    dealerDiv.append(deckViews[Math.floor(Math.random()*deck.length)].el);
+    dealtViews.push(deckViews[randomNumOne]);
+    deckViews.splice((deckViews[randomNumOne]), 1);
 
-    dealt.push(card);
-    deck.splice(card, 1)
+    dealer.add(deck[randomNumTwo]);
+    dealerDiv.append(deckViews[randomNumTwo].el);
+
+    dealtViews.push(deckViews[randomNumTwo]);
+    deckViews.splice((deckViews[randomNumTwo]), 1)
   }
   console.log(player.hand);
   console.log(dealer.hand);
@@ -182,7 +189,12 @@ function deal(player, dealer) {
 ///This function contains the logic that determines the winner
 
 function findWinner(playerScore, dealerScore) {
-  if (playerScore > 21) {
+  if (playerScore == dealerScore) {
+    alert("It is a push, you get your money back " + playerName);
+    bankRoll += $("#player-bet").val();
+    alert("click deal to play another hand")
+  }
+    else if (playerScore > 21) {
     alert("You bust, you lose.");
     alert("click deal to play another hand")
 
@@ -205,13 +217,8 @@ function findWinner(playerScore, dealerScore) {
     bankRoll = bankRoll;
     alert("click deal to play another hand")
 
-  } else {
-    alert("It is a push, you get your money back " + playerName);
-    bankRoll += $("#player-bet").val();
-    alert("click deal to play another hand")
-
   }
-  console.log(bankRoll);
+  bankDiv.text("Bank: $" + bankRoll);
 }
 ///This function checks the scores for any type of game ending outcomes
 
@@ -245,8 +252,9 @@ function dealerRules(dealerScore) {
 
       return dealerScore;
       }
-
     }
+    bankDiv.text("Bank: $" + bankRoll);
+
 }
 
 ///This function clears both hands and sends cards back to the deck array

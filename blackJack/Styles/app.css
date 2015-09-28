@@ -97,6 +97,7 @@ button {
 .bank {
   width: 5rem;
   font-size: 1rem;
+  text-align: center;
 }
 input {
   position: relative;
