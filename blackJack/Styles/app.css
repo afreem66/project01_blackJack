@@ -14,17 +14,21 @@ div {
   position: absolute;
 
 }
+
 .player, .dealer {
   left: 10%;
   width: 50%;
   height: 30%
 }
+
 .player {
   top: 15%;
 }
+
 .dealer {
   top: 65%;
 }
+
 .deck-container {
   position: absolute;
   top: 35%;
@@ -32,6 +36,7 @@ div {
   width: 15%;
   height: 39%;
 }
+
 .deck {
   position: absolute;
   top: 15%;
@@ -41,6 +46,14 @@ div {
 
   background: #555;
 }
+
+.card {
+  position: absolute;
+  width: 80%;
+  height: 68%;
+  background: #555;
+}
+
 h2, h3, h4 {
   text-align: center;
   font-family: 'Josefin Slab', serif;

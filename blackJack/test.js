@@ -73,22 +73,37 @@ function Card (cardSuit, cardRank) {
 }
 
 function CardView (cardSuit, cardRank) {
+  var thisView = this;
+
   this.suit = cardSuit;
   this.rank = cardRank;
+
+  // this.render();
+}
+
+CardView.prototype.render = function () {
+  this.el = $('<div class="card">');
+  this.el.text(this.nextCardView.cardRank);
+  this.el.text(this.nextCardView.cardSuit);
 }
 ///these are the general arrays where cards are stored. deck for unused cards
 ///and dealt for used cards
 
 var deck = [];
+var deckViews = [];
+
 var dealt = [];
 
 ///this section creates the deck using the Card Constructor function
 
 for (var i = 0; i < SUITS.length; i++) {
     for (var j = 0; j < RANKS.length; j++) {
+
       var nextCard = new Card(SUITS[i], RANKS[j]);
+      var nextCardView = new CardView(SUITS[i], RANKS[j]);
 
       deck.push(nextCard);
+      deckViews.push(nextCardView);
     }
 }
 
@@ -115,6 +130,8 @@ function Player (name) {
 
     dealt.push(card);
     deck.splice(card, 1);
+
+
   }
 
 ///this section adds the method which sums a players hand to the PLayer object.
@@ -143,8 +160,12 @@ function Player (name) {
 
 function deal(player, dealer) {
 
+  var playerDiv = $(".player");
+  var dealerDiv = $(".dealer");
+
   for (var i = 0; i < 2; i++) {
     player.add(deck[Math.floor(Math.random()*deck.length)]);
+    playerDiv.append(deckViews[Math.floor(Math.random()*deck.length)].el);
 
     dealer.add(deck[Math.floor(Math.random()*deck.length)]);
   }
